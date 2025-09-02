@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Calendar, TrendingUp } from "lucide-react";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Legend } from 'recharts';
 
 const mockData = [
   { day: 'Mon', hours: 6, intensity: 7 },
@@ -29,38 +30,40 @@ export const WorkIntensityChart = () => {
       </CardHeader>
       <CardContent className="space-y-4">
         {/* Chart Area */}
-        <div className="h-48 bg-secondary/20 rounded-lg p-4 relative">
-          <div className="flex items-end justify-between h-full">
-            {mockData.map((data, index) => (
-              <div key={index} className="flex flex-col items-center space-y-2 flex-1">
-                <div className="relative w-full max-w-8 flex flex-col items-center">
-                  {/* Intensity Bar */}
-                  <div 
-                    className="w-4 bg-accent rounded-t"
-                    style={{ height: `${(data.intensity / 10) * 80}px` }}
-                  />
-                  {/* Hours Bar */}
-                  <div 
-                    className="w-4 bg-success rounded-b"
-                    style={{ height: `${(data.hours / 12) * 80}px` }}
-                  />
-                </div>
-                <span className="text-xs text-muted-foreground">{data.day}</span>
-              </div>
-            ))}
-          </div>
-          
-          {/* Legend */}
-          <div className="absolute top-2 right-2 flex items-center gap-4 text-xs">
-            <div className="flex items-center gap-1">
-              <div className="w-3 h-3 bg-success rounded"></div>
-              <span className="text-muted-foreground">Hours of work</span>
-            </div>
-            <div className="flex items-center gap-1">
-              <div className="w-3 h-3 bg-accent rounded"></div>
-              <span className="text-muted-foreground">Intensity of work</span>
-            </div>
-          </div>
+        <div className="h-48 bg-secondary/20 rounded-lg p-4">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart data={mockData} margin={{ top: 5, right: 30, left: 5, bottom: 5 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+              <XAxis 
+                dataKey="day" 
+                tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 12 }}
+                axisLine={{ stroke: 'hsl(var(--border))' }}
+              />
+              <YAxis 
+                tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 12 }}
+                axisLine={{ stroke: 'hsl(var(--border))' }}
+              />
+              <Legend 
+                wrapperStyle={{ 
+                  paddingTop: '10px',
+                  fontSize: '12px',
+                  color: 'hsl(var(--muted-foreground))'
+                }}
+              />
+              <Bar 
+                dataKey="hours" 
+                fill="hsl(var(--success))" 
+                name="Work Hours"
+                radius={[2, 2, 0, 0]}
+              />
+              <Bar 
+                dataKey="intensity" 
+                fill="hsl(var(--accent))" 
+                name="Intensity"
+                radius={[2, 2, 0, 0]}
+              />
+            </BarChart>
+          </ResponsiveContainer>
         </div>
 
         {/* Stats */}

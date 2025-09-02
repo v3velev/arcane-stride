@@ -73,14 +73,14 @@ const Dashboard = () => {
       </div>
 
       {/* Main Content Grid */}
-      <div className="grid grid-cols-4 gap-6">
-        {/* Left Column - Ascension Sessions */}
-        <div className="col-span-2">
+      <div className="flex gap-6">
+        {/* Left Column - Ascension Sessions (65%) */}
+        <div className="flex-[0_0_65%]">
           <AscensionSessions />
         </div>
         
-        {/* Right Column - Human Capability */}
-        <div className="col-span-2">
+        {/* Right Column - Human Capability (35%) */}
+        <div className="flex-[0_0_35%]">
           <HumanCapability />
         </div>
       </div>

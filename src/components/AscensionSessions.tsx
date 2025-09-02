@@ -82,20 +82,32 @@ export const AscensionSessions = () => {
           ))}
         </div>
 
-        {/* Summary Buttons */}
-        <div className="flex gap-4 pt-4 border-t border-border">
-          <Button variant="outline" className="flex-1 hover-glow">
-            <Clock className="w-4 h-4 mr-2" />
-            Total Duration
-          </Button>
-          <Button variant="outline" className="flex-1 hover-glow">
-            <Zap className="w-4 h-4 mr-2" />
-            Avg. Intensity
-          </Button>
-          <Button variant="outline" className="flex-1 hover-glow">
-            <CheckCircle className="w-4 h-4 mr-2" />
-            Total Score
-          </Button>
+        {/* Today's Stats */}
+        <div className="grid grid-cols-3 gap-4 pt-4 border-t border-border">
+          <div className="bg-gradient-to-br from-accent/20 to-accent/5 p-4 rounded-lg border border-accent/20">
+            <div className="flex items-center gap-2 text-accent mb-1">
+              <Clock className="w-4 h-4" />
+              <span className="text-xs font-medium uppercase tracking-wide">Total Duration</span>
+            </div>
+            <div className="text-2xl font-bold text-foreground">4h 30m</div>
+            <div className="text-[10px] text-muted-foreground mt-1">Today's work time</div>
+          </div>
+          <div className="bg-gradient-to-br from-warning/20 to-warning/5 p-4 rounded-lg border border-warning/20">
+            <div className="flex items-center gap-2 text-warning mb-1">
+              <Zap className="w-4 h-4" />
+              <span className="text-xs font-medium uppercase tracking-wide">Avg. Intensity</span>
+            </div>
+            <div className="text-2xl font-bold text-foreground">7.0</div>
+            <div className="text-[10px] text-muted-foreground mt-1">Focus & speed</div>
+          </div>
+          <div className="bg-gradient-to-br from-success/20 to-success/5 p-4 rounded-lg border border-success/20">
+            <div className="flex items-center gap-2 text-success mb-1">
+              <CheckCircle className="w-4 h-4" />
+              <span className="text-xs font-medium uppercase tracking-wide">Total Score</span>
+            </div>
+            <div className="text-2xl font-bold text-foreground">31.5</div>
+            <div className="text-[10px] text-muted-foreground mt-1">Performance score</div>
+          </div>
         </div>
 
         {/* Stats Cards */}
