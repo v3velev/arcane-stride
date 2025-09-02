@@ -157,4 +157,30 @@ Dark theme with glowing silver accents and addictive gamification
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
+  
+  /* Pop effects for better visual hierarchy */
+  .text-pop {
+    text-shadow: 0 0 10px hsl(var(--foreground) / 0.1);
+    font-weight: 600;
+  }
+  
+  .capability-progress-gradient {
+    background: linear-gradient(90deg, hsl(var(--destructive)), hsl(var(--warning)), hsl(var(--success)));
+    border-radius: inherit;
+  }
+  
+  @keyframes scale-in {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
+  .animate-scale-in {
+    animation: scale-in 0.3s ease-out;
+  }
 }

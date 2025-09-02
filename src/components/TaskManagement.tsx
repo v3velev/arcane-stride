@@ -64,11 +64,35 @@ const completedTasks = [
 
 const getPriorityColor = (priority: string) => {
   switch (priority.toLowerCase()) {
-    case 'urgent': return 'bg-destructive/20 text-destructive';
-    case 'critical': return 'bg-warning/20 text-warning';
-    case 'medium': return 'bg-accent/20 text-accent';
-    default: return 'bg-muted text-muted-foreground';
+    case 'urgent': return 'bg-destructive/20 text-destructive border border-destructive/30';
+    case 'critical': return 'bg-warning/20 text-warning border border-warning/30';
+    case 'medium': return 'bg-accent/20 text-accent border border-accent/30';
+    default: return 'bg-muted text-muted-foreground border border-muted';
   }
+};
+
+const getDaysUntilDue = (dueDate: string) => {
+  const due = new Date(dueDate);
+  const today = new Date();
+  const diffTime = due.getTime() - today.getTime();
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  
+  if (diffDays < 0) return `Overdue by ${Math.abs(diffDays)} days`;
+  if (diffDays === 0) return 'Due today';
+  if (diffDays === 1) return 'Due tomorrow';
+  return `Due in ${diffDays} days`;
+};
+
+const getDueDateColor = (dueDate: string) => {
+  const due = new Date(dueDate);
+  const today = new Date();
+  const diffTime = due.getTime() - today.getTime();
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  
+  if (diffDays < 0) return 'text-destructive font-bold';
+  if (diffDays <= 1) return 'text-warning font-semibold';
+  if (diffDays <= 3) return 'text-accent font-medium';
+  return 'text-muted-foreground';
 };
 
 export const TaskManagement = () => {
@@ -98,32 +122,37 @@ export const TaskManagement = () => {
           </CardHeader>
           <CardContent className="space-y-3">
             {mockTasks.map((task, index) => (
-              <div key={task.id} className="flex items-center gap-4 p-4 rounded-lg bg-secondary/30 hover:bg-secondary/50 transition-colors group">
-                <GripVertical className="w-5 h-5 text-muted-foreground cursor-grab" />
+              <div key={task.id} className="flex items-center gap-4 p-4 rounded-lg bg-secondary/30 hover:bg-secondary/50 transition-all duration-300 hover:shadow-lg hover:shadow-accent/10 hover:scale-[1.01] group">
+                <GripVertical className="w-5 h-5 text-muted-foreground cursor-grab hover:text-accent transition-colors" />
                 <div className="flex items-center gap-3 flex-1">
-                  <div className="w-6 h-6 rounded-full bg-accent text-accent-foreground flex items-center justify-center text-sm font-bold">
+                  <div className="w-7 h-7 rounded-full bg-gradient-to-br from-accent to-accent/80 text-white flex items-center justify-center text-sm font-bold shadow-lg">
                     {index + 1}
                   </div>
-                  <Checkbox />
+                  <Checkbox className="hover:scale-110 transition-transform" />
                   <div className="flex-1 space-y-1">
-                    <h3 className="font-medium text-foreground">{task.name}</h3>
+                    <h3 className="font-semibold text-foreground text-pop">{task.name}</h3>
                     <p className="text-sm text-muted-foreground">{task.description}</p>
-                    <div className="flex items-center gap-3 text-xs text-muted-foreground">
-                      <span>📅 Due: {task.dueDate}</span>
-                      <span>Created: {task.createdDate}</span>
+                    <div className="flex items-center gap-3 text-xs">
+                      <span className="text-muted-foreground">📅 Due: {task.dueDate}</span>
+                      <span className="text-muted-foreground">Created: {task.createdDate}</span>
                     </div>
                   </div>
                 </div>
                 
-                <Badge className={getPriorityColor(task.priority)}>
-                  {task.priority}
-                </Badge>
+                <div className="flex flex-col items-end gap-2">
+                  <Badge className={`${getPriorityColor(task.priority)} font-bold text-pop`}>
+                    {task.priority}
+                  </Badge>
+                  <div className={`text-xs px-2 py-1 rounded-full bg-background/50 ${getDueDateColor(task.dueDate)} text-pop`}>
+                    {getDaysUntilDue(task.dueDate)}
+                  </div>
+                </div>
                 
                 <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
+                  <Button size="sm" variant="ghost" className="h-8 w-8 p-0 hover:bg-accent/20 hover:text-accent">
                     <Edit className="w-4 h-4" />
                   </Button>
-                  <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
+                  <Button size="sm" variant="ghost" className="h-8 w-8 p-0 hover:bg-destructive/20 hover:text-destructive">
                     <Trash2 className="w-4 h-4" />
                   </Button>
                 </div>
